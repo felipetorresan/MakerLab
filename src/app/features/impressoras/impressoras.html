@@ -1,1 +1,43 @@
-<p>impressoras works!</p>
+<section class="page">
+  <div class="page-heading list-heading">
+    <div>
+      <h1>Impressões 3D</h1>
+      <p>Consulte os projetos registrados no MakerLab.</p>
+    </div>
+    <a class="btn btn-primary" routerLink="/admin/nova">Nova impressão</a>
+  </div>
+
+  @if (erro) {
+    <p class="alert alert-error">{{ erro }}</p>
+  }
+
+  @if (carregando) {
+    <div class="panel empty-state">Carregando impressões...</div>
+  } @else if (impressoes.length === 0) {
+    <div class="panel empty-state">
+      <h2>Nenhum projeto encontrado</h2>
+      <p>Quando uma impressão for cadastrada, ela aparecerá aqui.</p>
+    </div>
+  } @else {
+    <div class="impressao-grid">
+      @for (impressao of impressoes; track impressao.id) {
+        <article class="panel impressao-card">
+          <div class="card-top">
+            <span class="material">{{ impressao.material }}</span>
+            <span class="status" [class.status-done]="impressao.concluida">
+              {{ impressao.concluida ? 'Concluída' : 'Em andamento' }}
+            </span>
+          </div>
+          <h2>{{ impressao.nomeProjeto }}</h2>
+          <p class="muted">Solicitante: {{ impressao.solicitante }}</p>
+          <div class="card-data">
+            <span>{{ impressao.pesoGramas }} g</span>
+            <span>{{ impressao.duracaoHoras }} horas</span>
+            <span>{{ impressao.dataSolicitacao | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <a class="btn btn-secondary" [routerLink]="['/impressoes', impressao.id]">Ver detalhes</a>
+        </article>
+      }
+    </div>
+  }
+</section>

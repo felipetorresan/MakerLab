@@ -1,0 +1,32 @@
+.about-page {
+  max-width: 850px;
+}
+
+.eyebrow {
+  color: var(--azul);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.about-panel {
+  padding: 28px;
+  line-height: 1.75;
+}
+
+.about-panel h2 {
+  margin: 0 0 10px;
+}
+
+.about-panel h2:not(:first-child) {
+  margin-top: 26px;
+}
+
+.about-panel p,
+.about-panel li {
+  color: #5c6880;
+}
+
+.about-panel ul {
+  padding-left: 22px;
+}

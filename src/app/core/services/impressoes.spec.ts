@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { Impressoes } from './impressoes';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ImpressoesService } from './impressoes';
 
-describe('Impressoes', () => {
-  let service: Impressoes;
+describe('ImpressoesService', () => {
+  let service: ImpressoesService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Impressoes);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()]
+    });
+    service = TestBed.inject(ImpressoesService);
   });
 
   it('should be created', () => {

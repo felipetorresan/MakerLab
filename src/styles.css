@@ -1,1 +1,178 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  font-family: 'Inter', Arial, sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --azul: #2356d8;
+  --azul-escuro: #173b9b;
+  --texto-fraco: #697386;
+  --borda: #e3e8f0;
+  --fundo-card: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  width: min(1080px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 42px 0 64px;
+}
+
+.page-heading {
+  margin-bottom: 26px;
+}
+
+.page-heading h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  letter-spacing: -0.06em;
+}
+
+.page-heading p,
+.muted {
+  color: var(--texto-fraco);
+  line-height: 1.6;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--azul);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--azul-escuro);
+}
+
+.btn-secondary {
+  background: white;
+  border-color: var(--borda);
+  color: #263248;
+}
+
+.btn-secondary:hover {
+  background: #f0f3f8;
+}
+
+.btn-danger {
+  color: #b42318;
+  background: #fff4f2;
+  border-color: #f7d5d0;
+}
+
+.btn-danger:hover {
+  background: #ffe8e4;
+}
+
+.panel {
+  background: var(--fundo-card);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(23, 32, 51, 0.04);
+}
+
+.alert {
+  margin: 16px 0;
+  padding: 12px 14px;
+  border-radius: 9px;
+  line-height: 1.5;
+}
+
+.alert-error {
+  color: #9f2424;
+  background: #fff0ef;
+  border: 1px solid #f4d0cc;
+}
+
+.alert-success {
+  color: #17663a;
+  background: #edf9f1;
+  border: 1px solid #ccebd7;
+}
+
+.empty-state {
+  padding: 34px 22px;
+  text-align: center;
+  color: var(--texto-fraco);
+}
+
+.empty-state h2 {
+  margin: 0 0 8px;
+  color: #263248;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-field label {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #d8deea;
+  border-radius: 8px;
+  background: white;
+  color: #172033;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: 3px solid rgba(35, 86, 216, 0.13);
+  border-color: var(--azul);
+}
+
+@media (max-width: 640px) {
+  .page {
+    width: min(100% - 28px, 1080px);
+    padding-top: 30px;
+  }
+}

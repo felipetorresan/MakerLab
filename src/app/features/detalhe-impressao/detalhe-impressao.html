@@ -1,1 +1,33 @@
-<p>detalhe-impressao works!</p>
+<section class="page detail-page">
+  <a class="back-link" routerLink="/impressoes">← Voltar para impressões</a>
+
+  @if (carregando) {
+    <div class="panel empty-state">Carregando detalhes...</div>
+  } @else if (erro) {
+    <p class="alert alert-error">{{ erro }}</p>
+  } @else if (impressao) {
+    <article class="panel detail-panel">
+      <div class="detail-heading">
+        <div>
+          <span class="material">{{ impressao.material }}</span>
+          <h1>{{ impressao.nomeProjeto }}</h1>
+          <p class="muted">Solicitado por {{ impressao.solicitante }}</p>
+        </div>
+        <span class="status" [class.status-done]="impressao.concluida">
+          {{ impressao.concluida ? 'Concluída' : 'Em andamento' }}
+        </span>
+      </div>
+
+      <div class="detail-grid">
+        <div><span>Peso estimado</span><strong>{{ impressao.pesoGramas }} g</strong></div>
+        <div><span>Duração estimada</span><strong>{{ impressao.duracaoHoras }} horas</strong></div>
+        <div><span>Data da solicitação</span><strong>{{ impressao.dataSolicitacao | date:'dd/MM/yyyy' }}</strong></div>
+      </div>
+
+      <div class="detail-actions">
+        <a class="btn btn-secondary" routerLink="/impressoes">Voltar</a>
+        <a class="btn btn-primary" [routerLink]="['/admin/editar', impressao.id]">Editar projeto</a>
+      </div>
+    </article>
+  }
+</section>

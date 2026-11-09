@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 import { DetalheImpressao } from './detalhe-impressao';
 
 describe('DetalheImpressao', () => {
@@ -8,11 +11,12 @@ describe('DetalheImpressao', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DetalheImpressao],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DetalheImpressao);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

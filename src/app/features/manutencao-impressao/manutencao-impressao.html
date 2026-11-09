@@ -1,1 +1,81 @@
-<p>manutencao-impressao works!</p>
+<section class="page form-page">
+  <div class="page-heading">
+    <h1>{{ id ? 'Editar impressão' : 'Nova impressão' }}</h1>
+    <p>Preencha os dados do projeto para manter o controle das impressões 3D.</p>
+  </div>
+
+  @if (erro) {
+    <p class="alert alert-error">{{ erro }}</p>
+  }
+
+  <form class="panel form-panel" [formGroup]="form" (ngSubmit)="salvar()">
+    <fieldset [disabled]="carregando || salvando">
+      <div class="form-grid">
+        <div class="form-field full">
+          <label for="nomeProjeto">Nome do projeto</label>
+          <input id="nomeProjeto" type="text" formControlName="nomeProjeto" placeholder="Ex.: Suporte para celular">
+          @if (form.controls.nomeProjeto.touched && form.controls.nomeProjeto.invalid) {
+            <small class="campo-erro">Informe um nome com pelo menos 3 caracteres.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="material">Material</label>
+          <select id="material" formControlName="material">
+            <option value="PLA">PLA</option>
+            <option value="ABS">ABS</option>
+            <option value="PETG">PETG</option>
+            <option value="TPU">TPU</option>
+            <option value="Resina">Resina</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="pesoGramas">Peso estimado (gramas)</label>
+          <input id="pesoGramas" type="number" min="1" step="1" formControlName="pesoGramas">
+          @if (form.controls.pesoGramas.touched && form.controls.pesoGramas.invalid) {
+            <small class="campo-erro">O peso deve ser maior que zero.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="duracaoHoras">Duração estimada (horas)</label>
+          <input id="duracaoHoras" type="number" min="0.1" step="0.1" formControlName="duracaoHoras">
+          @if (form.controls.duracaoHoras.touched && form.controls.duracaoHoras.invalid) {
+            <small class="campo-erro">Informe uma duração maior que zero.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="solicitante">Solicitante</label>
+          <input id="solicitante" type="text" formControlName="solicitante" placeholder="Nome de quem solicitou">
+          @if (form.controls.solicitante.touched && form.controls.solicitante.invalid) {
+            <small class="campo-erro">Informe o solicitante.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="dataSolicitacao">Data da solicitação</label>
+          <input id="dataSolicitacao" type="date" formControlName="dataSolicitacao">
+        </div>
+
+        <label class="checkbox-field">
+          <input type="checkbox" formControlName="concluida">
+          Impressão concluída
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <a class="btn btn-secondary" routerLink="/admin">Cancelar</a>
+      <button class="btn btn-primary" type="submit" [disabled]="salvando || carregando">
+        {{ salvando ? 'Salvando...' : (id ? 'Salvar alterações' : 'Cadastrar impressão') }}
+      </button>
+    </div>
+  </form>
+
+  @if (carregando) {
+    <p class="muted">Carregando dados da impressão...</p>
+  }
+</section>

@@ -1,1 +1,47 @@
-<p>admin works!</p>
+<section class="page">
+  <div class="page-heading admin-heading">
+    <div>
+      <h1>Administração</h1>
+      <p>Cadastre, consulte, edite ou remova projetos de impressão 3D.</p>
+    </div>
+    <a class="btn btn-primary" routerLink="/admin/nova">+ Nova impressão</a>
+  </div>
+
+  @if (mensagem) {
+    <p class="alert alert-success">{{ mensagem }}</p>
+  }
+
+  @if (erro) {
+    <p class="alert alert-error">{{ erro }}</p>
+  }
+
+  @if (carregando) {
+    <div class="panel empty-state">Carregando impressões...</div>
+  } @else if (impressoes.length === 0) {
+    <div class="panel empty-state">
+      <h2>Nenhuma impressão cadastrada</h2>
+      <p>Comece adicionando o primeiro projeto ao MakerLab.</p>
+      <a class="btn btn-primary" routerLink="/admin/nova">Cadastrar impressão</a>
+    </div>
+  } @else {
+    <div class="panel lista-admin">
+      @for (impressao of impressoes; track impressao.id) {
+        <article class="admin-item">
+          <div class="admin-info">
+            <h2>{{ impressao.nomeProjeto }}</h2>
+            <p>{{ impressao.material }} · {{ impressao.pesoGramas }} g · {{ impressao.duracaoHoras }} h</p>
+            <small>Solicitante: {{ impressao.solicitante }} · Data: {{ impressao.dataSolicitacao | date:'dd/MM/yyyy' }}</small>
+          </div>
+          <span class="status" [class.status-done]="impressao.concluida">
+            {{ impressao.concluida ? 'Concluída' : 'Em andamento' }}
+          </span>
+          <div class="admin-actions">
+            <a class="btn btn-secondary" [routerLink]="['/impressoes', impressao.id]">Detalhes</a>
+            <a class="btn btn-secondary" [routerLink]="['/admin/editar', impressao.id]">Editar</a>
+            <button class="btn btn-danger" type="button" (click)="excluir(impressao)">Excluir</button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

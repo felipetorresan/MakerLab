@@ -1,1 +1,15 @@
-<p>header works!</p>
+<header class="site-header">
+  <div class="header-content">
+    <a class="brand" routerLink="/">
+      <span class="brand-icon">M</span>
+      <span>Maker<span class="brand-light">Lab</span></span>
+    </a>
+
+    <nav aria-label="Navegação principal">
+      <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Início</a>
+      <a routerLink="/impressoes" routerLinkActive="active">Impressões</a>
+      <a routerLink="/admin" routerLinkActive="active">Administração</a>
+      <a routerLink="/sobre" routerLinkActive="active">Sobre</a>
+    </nav>
+  </div>
+</header>
