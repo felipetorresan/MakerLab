@@ -1,42 +1,110 @@
-import { inject, Service } from '@angular/core';
-import { Impressao3D } from '../models/impressao3d';
+
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { Impressao3D } from '../models/impressao3d';
 
-type FirebaseImpressoes = Omit<Impressao3D, "id"> & { id?: unknown };
+type FirebaseImpressao = Omit<Impressao3D, 'id'>;
 
-@Service()
-export class Impressoes {
+@Injectable({
+    providedIn: 'root'
+})
+export class ImpressoesService {
+
     private http = inject(HttpClient);
-    private apiUrl = "https://makerlab-ca781-default-rtdb.firebaseio.com/Impressao3D";
-    private sufix = ".json";
 
+    private apiUrl =
+        'https://makerlab-ca781-default-rtdb.firebaseio.com/Impressao3D';
+
+    private sufixo = '.json';
+
+    // Buscar todas as impressões
     getAll(): Observable<Impressao3D[]> {
-        return this.http.get<Record<string, FirebaseImpressoes> | null>
-            (this.apiUrl + this.sufix).pipe(
-                map((response) => {
+
+        return this.http
+            .get<Record<string, FirebaseImpressao> | null>(
+                this.apiUrl + this.sufixo
+            )
+            .pipe(
+                map(response => {
+
                     if (!response) {
                         return [];
                     }
 
-                    return Object.entries(response).map(([id, impressao]) => {
-                        const { id: _ignoredId, ...impressaoData } = impressao;
-                        return { id, ...impressaoData } as Impressao3D;
-                    });
+                    return Object.entries(response).map(([id, impressao]) => ({
+                        id,
+                        ...impressao
+                    }));
+
                 })
             );
     }
 
+    // Buscar uma impressão pelo ID
     getById(id: string): Observable<Impressao3D> {
-        return this.http.get<FirebaseImpressoes | null>
-            (`${this.apiUrl}/${id}${this.sufix}`).pipe(
-                map((response) => {
+
+        return this.http
+            .get<FirebaseImpressao | null>(
+                `${this.apiUrl}/${id}${this.sufixo}`
+            )
+            .pipe(
+                map(response => {
+
                     if (!response) {
-                        throw new Error(`Impressão 3D com ID ${id} não encontrada`);
+                        throw new Error('Impressão não encontrada.');
                     }
-                    const { id: _ignoredId, ...impressaoData } = response;
-                    return { id, ...impressaoData } as Impressao3D;
+
+                    return {
+                        id,
+                        ...response
+                    };
+
                 })
             );
     }
+
+    // Cadastrar uma impressão
+    create(impressao: Omit<Impressao3D, 'id'>): Observable<Impressao3D> {
+
+        return this.http
+            .post<{ name: string }>(
+                this.apiUrl + this.sufixo,
+                impressao
+            )
+            .pipe(
+                map(response => ({
+                    id: response.name,
+                    ...impressao
+                }))
+            );
+    }
+
+    // Atualizar uma impressão
+    update(
+        id: string,
+        impressao: Omit<Impressao3D, 'id'>
+    ): Observable<Impressao3D> {
+
+        return this.http
+            .put<FirebaseImpressao>(
+                `${this.apiUrl}/${id}${this.sufixo}`,
+                impressao
+            )
+            .pipe(
+                map(() => ({
+                    id,
+                    ...impressao
+                }))
+            );
+    }
+
+    // Excluir uma impressão
+    delete(id: string): Observable<void> {
+
+        return this.http.delete<void>(
+            `${this.apiUrl}/${id}${this.sufixo}`
+        );
+    }
+
 }
