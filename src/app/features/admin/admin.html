@@ -15,7 +15,7 @@
     <p class="alert alert-error">{{ erro }}</p>
   }
 
-  @if (carregando) {
+  @if (carregando()) {
     <div class="panel empty-state">Carregando impressões...</div>
   } @else if (impressoes.length === 0) {
     <div class="panel empty-state">
@@ -25,7 +25,7 @@
     </div>
   } @else {
     <div class="panel lista-admin">
-      @for (impressao of impressoes; track impressao.id) {
+      @for (impressao of impressoes(); track impressao.id) {
         <article class="admin-item">
           <div class="admin-info">
             <h2>{{ impressao.nomeProjeto }}</h2>

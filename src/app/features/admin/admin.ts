@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Impressao3D } from '../../core/models/impressao3d';
 import { ImpressoesService } from '../../core/services/impressoes';
@@ -13,8 +13,8 @@ import { ImpressoesService } from '../../core/services/impressoes';
 export class Admin implements OnInit {
   private service = inject(ImpressoesService);
 
-  impressoes: Impressao3D[] = [];
-  carregando = true;
+  impressoes = signal<Impressao3D[]>([]);
+  carregando = signal(true);
   erro = '';
   mensagem = '';
 
@@ -23,19 +23,19 @@ export class Admin implements OnInit {
   }
 
   carregarImpressoes(): void {
-    this.carregando = true;
+    this.carregando.set(true);
     this.erro = '';
 
     this.service.getAll().subscribe({
       next: (dados) => {
-        this.impressoes = dados.sort((a, b) =>
+        this.impressoes.set(dados.sort((a, b) =>
           b.dataSolicitacao.localeCompare(a.dataSolicitacao)
-        );
-        this.carregando = false;
+        ));
+        this.carregando.set(false);
       },
       error: () => {
         this.erro = 'Não foi possível carregar as impressões. Verifique a conexão com o Firebase.';
-        this.carregando = false;
+        this.carregando.set(false);
       }
     });
   }
